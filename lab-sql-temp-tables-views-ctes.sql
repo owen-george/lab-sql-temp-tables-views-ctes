@@ -10,14 +10,15 @@ USE sakila;
 DROP VIEW IF EXISTS rental_info;
 
 CREATE VIEW rental_info AS
-WITH cte_rentals AS (
-SELECT r.customer_id, count(r.rental_id) AS rental_count
+SELECT r.customer_id,
+c.first_name,
+c.last_name,
+c.email,
+COUNT(*) AS rental_count
 FROM sakila.rental AS r
-GROUP BY r.customer_id
-)
-SELECT r.customer_id, c.first_name, c.last_name, c.email, r.rental_count FROM cte_rentals AS r
 JOIN sakila.customer as c
 ON c.customer_id = r.customer_id
+GROUP BY customer_id
 ;
 
 SELECT * FROM rental_info;
